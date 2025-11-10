@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Limbuwan Store</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Limbuwan Store</h1>
+    <div id="cart">Cart (0)</div>
+  </header>
+
+  <main>
+    <div id="product-list"></div>
+
+    <div id="checkout-section" style="display:none;">
+      <h2>Checkout</h2>
+      <p id="cart-items"></p>
+      <p><strong>Total: ₹<span id="total-price">0</span></strong></p>
+
+      <h3>Select Payment Method:</h3>
+      <form id="payment-form">
+        <label><input type="radio" name="payment" value="paypal" checked /> PayPal</label><br/>
+        <label><input type="radio" name="payment" value="fampay" /> Fampay</label><br/>
+        <label><input type="radio" name="payment" value="phonepe" /> PhonePe</label><br/>
+        <label><input type="radio" name="payment" value="cod" /> Cash on Delivery</label><br/>
+      </form>
+
+      <button id="pay-now">Pay Now</button>
+      <button id="cancel-checkout">Cancel</button>
+    </div>
+
+    <section id="info-section">
+      <h3>Privacy Policy</h3>
+      <p>Your privacy is important to us. We collect only necessary data for order processing.</p>
+
+      <h3>Customer Care</h3>
+      <p>Contact us at <a href="mailto:support@limbuwanstore.com">support@limbuwanstore.com</a> or call +91-XXXXXXXXXX</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background: #f9f9f9;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ccc;
+}
+#product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+.product {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  border-radius: 8px;
+}
+.product img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+button {
+  background: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+button:hover {
+  background: #0056b3;
+}
+#cart {
+  cursor: pointer;
+}
+#checkout-section {
+  background: white;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#info-section {
+  margin-top: 40px;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+}
+
+const products = [
+  { id: 1, name: 'Limbuwan T-shirt', price: 499, image: 'https://via.placeholder.com/200' },
+  { id: 2, name: 'Limbuwan Mug', price: 299, image: 'https://via.placeholder.com/200' },
+  { id: 3, name: 'Limbuwan Cap', price: 399, image: 'https://via.placeholder.com/200' }
+];
+
+let cart = [];
+
+const productList = document.getElementById('product-list');
+const cartDisplay = document.getElementById('cart');
+const checkoutSection = document.getElementById('checkout-section');
+const cartItemsDisplay = document.getElementById('cart-items');
+const totalPriceDisplay = document.getElementById('total-price');
+const payNowButton = document.getElementById('pay-now');
+const cancelCheckoutButton = document.getElementById('cancel-checkout');
+
+function displayProducts() {
+  productList.innerHTML = '';
+  products.forEach(product => {
+    const productDiv = document.createElement('div');
+    productDiv.className = 'product';
+    productDiv.innerHTML = `
+      <img src="${product.image}" alt="${product.name}" />
+      <h3>${product.name}</h3>
+      <p>Price: ₹${product.price}</p>
+      <button onclick="addToCart(${product.id})">Add to Cart</button>
+    `;
+    productList.appendChild(productDiv);
+  });
+}
+
+function addToCart(productId) {
+  const product = products.find(p => p.id === productId);
+  cart.push(product);
+  updateCartCount();
+  alert(`${product.name} added to cart!`);
+}
+
+function updateCartCount() {
+  cartDisplay.innerText = `Cart (${cart.length})`;
+}
+
+function showCheckout() {
+  if (cart.length === 0) {
+    alert('Your cart is empty.');
+    return;
+  }
+
+  let itemsHtml = cart.map(p => `${p.name} - ₹${p.price}`).join('<br>');
+  cartItemsDisplay.innerHTML = itemsHtml;
+
+  let total = cart.reduce((sum, p) => sum + p.price, 0);
+  totalPriceDisplay.innerText = total;
+
+  checkoutSection.style.display = 'block';
+}
+
+function hideCheckout() {
+  checkoutSection.style.display = 'none';
+}
+
+payNowButton.addEventListener('click', () => {
+  const paymentForm = document.getElementById('payment-form');
+  const selectedPayment = paymentForm.payment.value;
+
+  if (selectedPayment === 'paypal') {
+    alert('Redirecting to PayPal...');
+    window.open('https://www.paypal.com/checkoutnow', '_blank');
+  } else if (selectedPayment === 'fampay') {
+    alert('Redirecting to Fampay...');
+    window.open('https://www.fampay.in/pay', '_blank');
+  } else if (selectedPayment === 'phonepe') {
+    alert('Redirecting to PhonePe...');
+    window.open('https://phonepe.com/', '_blank');
+  } else if (selectedPayment === 'cod') {
+    alert('You have selected Cash on Delivery. Our delivery team will contact you.');
+  } else {
+    alert('Please select a payment method.');
+    return;
+  }
+
+  cart = [];
+  updateCartCount();
+  hideCheckout();
+});
+
+cancelCheckoutButton.addEventListener('click', () => {
+  hideCheckout();
+});
+
+cartDisplay.addEventListener('click', showCheckout);
+
+displayProducts();
+updateCartCount();
