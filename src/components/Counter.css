@@ -1,0 +1,98 @@
+.counter-container {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.counter-container h2 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.counter-description {
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.counter-display {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.counter-value {
+  font-size: 4rem;
+  font-weight: bold;
+  color: white;
+  font-family: 'Courier New', monospace;
+}
+
+.counter-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.counter-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.counter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.counter-btn-increment {
+  background: #4caf50;
+  color: white;
+}
+
+.counter-btn-increment:hover {
+  background: #45a049;
+}
+
+.counter-btn-decrement {
+  background: #f44336;
+  color: white;
+}
+
+.counter-btn-decrement:hover {
+  background: #da190b;
+}
+
+.counter-btn-reset {
+  background: #2196f3;
+  color: white;
+}
+
+.counter-btn-reset:hover {
+  background: #0b7dda;
+}
+
+.counter-status {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.status-neutral {
+  color: #666;
+}
+
+.status-positive {
+  color: #4caf50;
+}
+
+.status-negative {
+  color: #f44336;
+}
